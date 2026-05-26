@@ -1,0 +1,22 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64">
+  <!-- Dark background -->
+  <rect width="64" height="64" fill="#08090d"/>
+  
+  <!-- Stylized bass clef symbol -->
+  <g transform="translate(32, 32)">
+    <!-- Main vertical staff line -->
+    <line x1="0" y1="-20" x2="0" y2="20" stroke="#e8a838" stroke-width="2" stroke-linecap="round"/>
+    
+    <!-- Bass clef curves - left side -->
+    <path d="M -8,-10 Q -14,-10 -14,-3 Q -14,4 -8,4" stroke="#e8a838" stroke-width="2.5" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+    
+    <!-- Bass clef curves - right side -->
+    <path d="M 8,-10 Q 14,-10 14,-3 Q 14,4 8,4" stroke="#e8a838" stroke-width="2.5" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+    
+    <!-- Decorative dots -->
+    <circle cx="-5" cy="-8" r="1.5" fill="#e8a838"/>
+    <circle cx="5" cy="-8" r="1.5" fill="#e8a838"/>
+    <circle cx="-5" cy="8" r="1.5" fill="#e8a838"/>
+    <circle cx="5" cy="8" r="1.5" fill="#e8a838"/>
+  </g>
+</svg>
