@@ -182,13 +182,8 @@ function VerticalBoard({ count, lit, rootMidi, onFretClick, T, droningKeys, cust
   );
 }
 
-// ─── BOARD (responsive wrapper) ─────────────────────────────────────────────
-export function Board({ count, lit, rootMidi, onFretClick, T, droningKeys, customMode, droneActive, isMobile, showAllOctaves }) {
-  if (isMobile) {
-    return <VerticalBoard count={count} lit={lit} rootMidi={rootMidi} onFretClick={onFretClick}
-      T={T} droningKeys={droningKeys} customMode={customMode} droneActive={droneActive}
-      showAllOctaves={showAllOctaves} />;
-  }
+// ─── BOARD ───────────────────────────────────────────────────────────────────
+export function Board({ count, lit, rootMidi, onFretClick, T, droningKeys, customMode, droneActive, showAllOctaves }) {
   return <HorizontalBoard count={count} lit={lit} rootMidi={rootMidi} onFretClick={onFretClick}
     T={T} droningKeys={droningKeys} customMode={customMode} droneActive={droneActive}
     showAllOctaves={showAllOctaves} />;

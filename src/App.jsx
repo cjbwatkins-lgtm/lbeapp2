@@ -37,14 +37,14 @@ function DragHandle({ id, onDown, T }) {
   );
 }
 
-function PanelWrap({ id, children, title, panelRefs, T, isMobile, overId, dragId, onDown }) {
+function PanelWrap({ id, children, title, panelRefs, T, overId, dragId, onDown }) {
   return (
     <div
       ref={(el) => { if (el) panelRefs.current[id] = el; }}
       onFocus={_onFocusScrollLock}
       style={{
         flex: 1,
-        minWidth: isMobile ? "100%" : "auto",
+        minWidth: 0,
         minHeight: 0,
         padding: 12,
         background: T.bg2,
@@ -113,8 +113,11 @@ export default function App() {
   // STATE & CONSTANTS
   // ============================================================================
 
-  // Responsive
-  const { isMobile, isTablet, isDesktop } = useResponsive();
+  // Responsive — scale entire app to fit any window
+  const APP_W = 960;
+  const { width: winW, height: winH } = useResponsive();
+  const appScale = Math.min(1, winW / APP_W);
+  const appH = winH / appScale;
   const wakeLock = useWakeLock();
 
   // Theme
@@ -750,7 +753,6 @@ export default function App() {
         customMode={drMode === "custom"}
         droningKeys={droningKeys}
         droneActive={droneOn}
-        isMobile={isMobile}
         showAllOctaves={showAllOctaves}
       />
     </PanelWrap>
@@ -975,8 +977,8 @@ export default function App() {
           })}
         </div>
       </div>
-      <div style={{ display: "flex", gap: 8, flexDirection: isMobile ? "column" : "row", alignItems: "flex-start" }}>
-        <div style={{ flex: 1, minWidth: isMobile ? "100%" : 200 }}>
+      <div style={{ display: "flex", gap: 8, flexDirection: "row", alignItems: "flex-start" }}>
+        <div style={{ flex: 1, minWidth: 0 }}>
           <label style={{ fontSize: 10, color: T.txt + "80", marginBottom: 4, display: "block" }}>BPM</label>
           <BPMKnob
             value={bpm}
@@ -1620,7 +1622,7 @@ export default function App() {
   // ============================================================================
 
   // Shared props for all PanelWrap instances (stable reference to panelRefs, changes only when layout/theme/drag state changes)
-  const pp = { panelRefs, T, isMobile, overId, dragId, onDown: onHandleDown };
+  const pp = { panelRefs, T, overId, dragId, onDown: onHandleDown };
 
   const panelContent = {
     fretboard: renderFretboard(),
@@ -1630,17 +1632,23 @@ export default function App() {
   };
 
   return (
+    <div style={{ width: "100vw", height: "100vh", overflow: "hidden", position: "relative" }}>
     <div
       data-theme={theme}
       style={{
-        width: "100vw",
-        height: "100vh",
+        width: APP_W,
+        height: appH,
         display: "flex",
         flexDirection: "column",
         background: T.bg,
         color: T.txt,
         fontFamily: "system-ui, sans-serif",
         overflow: "hidden",
+        transform: `scale(${appScale})`,
+        transformOrigin: "top left",
+        position: "absolute",
+        top: 0,
+        left: 0,
       }}
     >
       {/* PWA Update Prompt */}
@@ -1910,10 +1918,10 @@ export default function App() {
           style={{
             flex: 1,
             display: "flex",
-            flexDirection: isMobile ? "column" : "row",
+            flexDirection: "row",
             gap: 12,
             padding: 12,
-            overflow: isMobile ? "auto" : "hidden",
+            overflow: "hidden",
             flexWrap: "nowrap",
             minHeight: 0,
           }}
@@ -1922,10 +1930,10 @@ export default function App() {
             <div
               key={id}
               style={{
-                flex: isMobile ? "0 0 auto" : 1,
+                flex: 1,
                 display: "flex",
                 minHeight: 0,
-                width: isMobile ? "100%" : undefined,
+                minWidth: 0,
               }}
             >
               {panelContent[id]}
@@ -1976,6 +1984,7 @@ export default function App() {
         </div>
       )}
 
+    </div>
     </div>
   );
 }

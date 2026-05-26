@@ -1,19 +1,16 @@
 import { useState, useEffect } from 'react';
 
-// Breakpoints: mobile < 640 < tablet < 1024 < desktop
 export function useResponsive() {
-  const [width, setWidth] = useState(typeof window !== 'undefined' ? window.innerWidth : 1024);
+  const [size, setSize] = useState({
+    width: typeof window !== 'undefined' ? window.innerWidth : 1024,
+    height: typeof window !== 'undefined' ? window.innerHeight : 768,
+  });
 
   useEffect(() => {
-    const onResize = () => setWidth(window.innerWidth);
+    const onResize = () => setSize({ width: window.innerWidth, height: window.innerHeight });
     window.addEventListener('resize', onResize);
     return () => window.removeEventListener('resize', onResize);
   }, []);
 
-  return {
-    width,
-    isMobile: width < 640,
-    isTablet: width >= 640 && width < 1024,
-    isDesktop: width >= 1024,
-  };
+  return size;
 }
